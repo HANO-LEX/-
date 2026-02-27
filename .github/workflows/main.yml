@@ -21,11 +21,18 @@ jobs:
       - name: Install Tools
         run: |
           npm install
-          npm install @capacitor/android
+          npm install @capacitor/android @capacitor/local-notifications
+          npm install @capacitor/assets --save-dev
+
+      - name: Generate Icons
+        run: |
+          # السطر ده بياخد صورة icon.png ويقصها لكل مقاسات الأندرويد
+          npx capacitor-assets generate --android
 
       - name: Create Android Folder
         run: |
-          npx cap add android || echo "Already exists"
+          rm -rf android
+          npx cap add android
           npx cap sync android
 
       - name: Build APK
