@@ -20,13 +20,13 @@ jobs:
 
       - name: Install Tools
         run: |
-          npm install
-          npm install @capacitor/android @capacitor/local-notifications
+          # السطر اللي جاي ده هو اللي بيحل مشكلة الـ Error اللي ظهرت عندك
+          npm install --legacy-peer-deps
           npm install @capacitor/assets --save-dev
 
       - name: Generate Icons
         run: |
-          # السطر ده بياخد صورة icon.png ويقصها لكل مقاسات الأندرويد
+          # لازم تكون رافع صورة اسمها icon.png في الصفحة الرئيسية
           npx capacitor-assets generate --android
 
       - name: Create Android Folder
