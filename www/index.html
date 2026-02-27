@@ -1101,5 +1101,50 @@ function init(){
 }
 init();
 </script>
+  <script type="module">
+  // بننادي على مكتبة الإشعارات اللي طبخناها في المكينة
+  import { LocalNotifications } from 'https://cdn.jsdelivr.net/npm/@capacitor/local-notifications@latest/+esm';
+
+  async function startNotifications() {
+    // 1. بنطلب إذن من المستخدم (لازم يوافق الأول)
+    const permission = await LocalNotifications.requestPermissions();
+    
+    if (permission.display === 'granted') {
+      // 2. بنمسح أي إشعارات قديمة عشان ميتلخبطش
+      await LocalNotifications.removeAllDeliveredNotifications();
+
+      // 3. بنجدول الإشعارات الجديدة
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            title: "تنبيه من عمنا",
+            body: "ايه يا عمنا انت نسيت اللي عليك ولا ايه؟",
+            id: 1,
+            schedule: { at: new Date(Date.now() + 1000 * 10) } // هيظهر بعد 10 ثواني للتجربة
+          },
+          {
+            title: "تحذير الأخير",
+            body: "بص يابني انا استحملتك كتير وده ضد طبيعتي",
+            id: 2,
+            schedule: { at: new Date(Date.now() + 1000 * 60 * 5) } // بعد 5 دقائق
+          },
+          {
+            title: "ذكر",
+            body: "صلي على النبي",
+            id: 3,
+            schedule: { 
+              at: new Date(Date.now() + 1000 * 60 * 60), // بعد ساعة
+              repeats: true // يتكرر كل ساعة
+            }
+          }
+        ]
+      });
+      console.log("تم ضبط الإشعارات بنجاح!");
+    }
+  }
+
+  // بنشغل الدالة دي أول ما التطبيق يفتح
+  startNotifications();
+</script>
 </body>
 </html>
